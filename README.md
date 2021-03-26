@@ -8,6 +8,8 @@ Attempting to test the timing of a property mapped from IsExecuting of a Command
 
 The task is mocked with a delay using NSubstitute.
 
+During actual execution of the Blazor project, the property updates as expected.
+
 ### await scheduler.Sleep(TimeSpan.FromTicks(50))
 
 Results in only seeing the property change to `true`. While the process does continue to run, the unit test does not see subsequent changes from `IsExecuting`.
