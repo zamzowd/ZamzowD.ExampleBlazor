@@ -3,11 +3,16 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30907.101
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ZamzowD.ExampleBlazor.Client", "ZamzowD.ExampleBlazor.Client\ZamzowD.ExampleBlazor.Client.csproj", "{5C0BA548-9B84-445E-980A-6A0BC18132DA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ZamzowD.ExampleBlazor.Client", "ZamzowD.ExampleBlazor.Client\ZamzowD.ExampleBlazor.Client.csproj", "{5C0BA548-9B84-445E-980A-6A0BC18132DA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ZamzowD.ExampleBlazor.Models", "ZamzowD.ExampleBlazor.Models\ZamzowD.ExampleBlazor.Models.csproj", "{BF39149D-6331-4120-8F72-74E7002D62AF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ZamzowD.ExampleBlazor.Models", "ZamzowD.ExampleBlazor.Models\ZamzowD.ExampleBlazor.Models.csproj", "{BF39149D-6331-4120-8F72-74E7002D62AF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ZamzowD.ExampleBlazor.Client.Tests", "ZamzowD.ExampleBlazor.Client.Tests\ZamzowD.ExampleBlazor.Client.Tests.csproj", "{4AD595C3-F657-4F45-9BA1-CD9A322709C4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ZamzowD.ExampleBlazor.Client.Tests", "ZamzowD.ExampleBlazor.Client.Tests\ZamzowD.ExampleBlazor.Client.Tests.csproj", "{4AD595C3-F657-4F45-9BA1-CD9A322709C4}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{B4E3ACCC-EFB1-4C33-8BD2-F7658D194E96}"
+	ProjectSection(SolutionItems) = preProject
+		README.md = README.md
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
