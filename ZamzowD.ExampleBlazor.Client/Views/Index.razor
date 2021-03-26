@@ -16,25 +16,23 @@ Welcome to your new app.
 else
 {
     <div>
-        <button @onclick="LoadTodos">Refresh</button>
+        <button @onclick="LoadTodo">Refresh</button>
     </div>
-    @foreach (var todo in ViewModel.Todos)
-    {
-        <div>Title: @todo.Title</div>
-        <div>Completed: @todo.Completed</div>
-    }
+    <div>Title: @ViewModel.Todo.Title</div>
+    <div>Completed: @ViewModel.Todo.Completed</div>
 }
 
 @code
 {
+    private const int _todoId = 1;
 
     protected override Task OnInitializedAsync()
     {
-        return LoadTodos();
+        return LoadTodo();
     }
 
-    private Task LoadTodos()
+    private Task LoadTodo()
     {
-        return ViewModel.LoadTodos.Execute().ToTask();
+        return ViewModel.LoadTodo.Execute(_todoId).ToTask();
     }
 }

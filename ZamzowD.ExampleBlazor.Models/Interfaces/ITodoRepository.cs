@@ -7,5 +7,7 @@ namespace ZamzowD.ExampleBlazor.Models.Interfaces
     public interface ITodoRepository
     {
         Task<IEnumerable<Todo>> ListTodosAsync(CancellationToken cancellationToken = default);
+
+        Task<Todo> GetTodoAsync(int id, CancellationToken cancellationToken = default);
     }
 }

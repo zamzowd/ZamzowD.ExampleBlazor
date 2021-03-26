@@ -2,7 +2,6 @@ using Microsoft.Reactive.Testing;
 using NSubstitute;
 using ReactiveUI.Testing;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Reactive;
@@ -17,11 +16,11 @@ namespace ZamzowD.ExampleBlazor.Client.Tests
 {
     public class IndexViewModelTests : ReactiveTest
     {
-        private ITodoRepository _mockCaptureRepository;
+        private ITodoRepository _mockTodoRepository;
 
         public IndexViewModelTests()
         {
-            _mockCaptureRepository = Substitute.For<ITodoRepository>();
+            _mockTodoRepository = Substitute.For<ITodoRepository>();
         }
 
         [Fact]
@@ -29,25 +28,21 @@ namespace ZamzowD.ExampleBlazor.Client.Tests
         {
             new TestScheduler().With((scheduler) =>
             {
-                var vm = new IndexViewModel(_mockCaptureRepository);
+                var vm = new IndexViewModel(_mockTodoRepository);
 
-                scheduler.ScheduleAbsolute(Subscribed + 10, () => vm.LoadTodos.Execute().Subscribe());
+                scheduler.ScheduleAbsolute(Subscribed + 10, () => vm.LoadTodo.Execute().Subscribe());
 
-                scheduler.ScheduleAbsolute(Subscribed + 110, () => vm.LoadTodos.Execute().Subscribe());
+                scheduler.ScheduleAbsolute(Subscribed + 110, () => vm.LoadTodo.Execute().Subscribe());
 
-                _mockCaptureRepository.ListTodosAsync(default)
+                _mockTodoRepository.GetTodoAsync(default, default)
                     .ReturnsForAnyArgs(async (_) =>
                     {
                         await scheduler.Sleep(TimeSpan.FromTicks(50));
                         //scheduler.Sleep(50);
-                        return new Todo[]
-                        {
-                            new Todo { Id = 1, UserId = 1, Title = "title", Completed = true }
-                        }
-                            .AsEnumerable();
+                        return new Todo { Id = 1, UserId = 1, Title = "title", Completed = true };
                     });
 
-                var results = scheduler.Start(() => vm.LoadTodos.IsExecuting, Created, Subscribed, Disposed);
+                var results = scheduler.Start(() => vm.LoadTodo.IsExecuting, Created, Subscribed, Disposed);
 
                 var expected = new Recorded<Notification<bool>>[]
                 {
@@ -66,22 +61,18 @@ namespace ZamzowD.ExampleBlazor.Client.Tests
         {
             new TestScheduler().With((scheduler) =>
             {
-                var vm = new IndexViewModel(_mockCaptureRepository);
+                var vm = new IndexViewModel(_mockTodoRepository);
 
-                scheduler.ScheduleAbsolute(Subscribed + 10, () => vm.LoadTodos.Execute().Subscribe());
+                scheduler.ScheduleAbsolute(Subscribed + 10, () => vm.LoadTodo.Execute().Subscribe());
 
-                scheduler.ScheduleAbsolute(Subscribed + 110, () => vm.LoadTodos.Execute().Subscribe());
+                scheduler.ScheduleAbsolute(Subscribed + 110, () => vm.LoadTodo.Execute().Subscribe());
 
-                _mockCaptureRepository.ListTodosAsync(default)
+                _mockTodoRepository.GetTodoAsync(default, default)
                     .ReturnsForAnyArgs(async (_) =>
                     {
                         await scheduler.Sleep(TimeSpan.FromTicks(50));
                         //scheduler.Sleep(50);
-                        return new Todo[]
-                        {
-                            new Todo { Id = 1, UserId = 1, Title = "title", Completed = true }
-                        }
-                            .AsEnumerable();
+                        return new Todo { Id = 1, UserId = 1, Title = "title", Completed = true };
                     });
 
                 var todosObservable = Observable.FromEventPattern<PropertyChangedEventArgs>(vm, nameof(IndexViewModel.PropertyChanged), scheduler)
@@ -106,29 +97,25 @@ namespace ZamzowD.ExampleBlazor.Client.Tests
         {
             new TestScheduler().With((scheduler) =>
             {
-                var vm = new IndexViewModel(_mockCaptureRepository);
+                var vm = new IndexViewModel(_mockTodoRepository);
 
-                scheduler.ScheduleAbsolute(10, () => vm.LoadTodos.Execute().Subscribe());
+                scheduler.ScheduleAbsolute(10, () => vm.LoadTodo.Execute().Subscribe());
 
-                scheduler.ScheduleAbsolute(Subscribed + 10, () => vm.LoadTodos.Execute().Subscribe());
+                scheduler.ScheduleAbsolute(Subscribed + 10, () => vm.LoadTodo.Execute().Subscribe());
 
-                scheduler.ScheduleAbsolute(Subscribed + 110, () => vm.LoadTodos.Execute().Subscribe());
+                scheduler.ScheduleAbsolute(Subscribed + 110, () => vm.LoadTodo.Execute().Subscribe());
 
-                _mockCaptureRepository.ListTodosAsync(default)
+                _mockTodoRepository.GetTodoAsync(default, default)
                     .ReturnsForAnyArgs(async (_) =>
                     {
                         await scheduler.Sleep(TimeSpan.FromTicks(50));
                         //scheduler.Sleep(50);
-                        return new Todo[]
-                        {
-                            new Todo { Id = 1, UserId = 1, Title = "title", Completed = true }
-                        }
-                            .AsEnumerable();
+                        return new Todo { Id = 1, UserId = 1, Title = "title", Completed = true };
                     });
 
                 var todosObservable = Observable.FromEventPattern<PropertyChangedEventArgs>(vm, nameof(IndexViewModel.PropertyChanged), scheduler)
-                    .Where((propertyChangedEvent) => propertyChangedEvent.EventArgs.PropertyName == nameof(IndexViewModel.Todos))
-                    .Select((propertyChangedEvent) => ((IndexViewModel)propertyChangedEvent.Sender).Todos.FirstOrDefault());
+                    .Where((propertyChangedEvent) => propertyChangedEvent.EventArgs.PropertyName == nameof(IndexViewModel.Todo))
+                    .Select((propertyChangedEvent) => ((IndexViewModel)propertyChangedEvent.Sender).Todo);
 
                 var results = scheduler.Start(() => todosObservable, Created, Subscribed, Disposed);
 

@@ -11,13 +11,13 @@ namespace ZamzowD.ExampleBlazor.Client.ViewModels
 {
     public class IndexViewModel : ReactiveObject, IDisposable
     {
-        public ReactiveCommand<Unit, Unit> LoadTodos { get; }
+        public ReactiveCommand<int, Unit> LoadTodo { get; }
 
-        private IEnumerable<Todo> _todos = Enumerable.Empty<Todo>();
-        public IEnumerable<Todo> Todos
+        private Todo _todo;
+        public Todo Todo
         {
-            get => _todos;
-            private set => this.RaiseAndSetIfChanged(ref _todos, value);
+            get => _todo;
+            private set => this.RaiseAndSetIfChanged(ref _todo, value);
         }
 
         private ObservableAsPropertyHelper<bool> _loading;
@@ -27,13 +27,13 @@ namespace ZamzowD.ExampleBlazor.Client.ViewModels
 
         public IndexViewModel(ITodoRepository todoRepository)
         {
-            LoadTodos = ReactiveCommand.CreateFromTask(async (cancellationToken) =>
+            LoadTodo = ReactiveCommand.CreateFromTask<int>(async (id, cancellationToken) =>
             {
-                Todos = Enumerable.Empty<Todo>();
-                Todos = await todoRepository.ListTodosAsync(cancellationToken);
+                Todo = null;
+                Todo = await todoRepository.GetTodoAsync(id, cancellationToken);
             });
 
-            _loading = LoadTodos.IsExecuting
+            _loading = LoadTodo.IsExecuting
                 .ToProperty(this, x => x.Loading);
         }
 

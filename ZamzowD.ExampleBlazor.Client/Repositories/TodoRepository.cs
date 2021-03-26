@@ -21,5 +21,10 @@ namespace ZamzowD.ExampleBlazor.Client.Repositories
         {
             return _http.GetFromJsonAsync<IEnumerable<Todo>>("todos", cancellationToken);
         }
+
+        public Task<Todo> GetTodoAsync(int id, CancellationToken cancellationToken = default)
+        {
+            return _http.GetFromJsonAsync<Todo>($"todos/{id}", cancellationToken);
+        }
     }
 }
