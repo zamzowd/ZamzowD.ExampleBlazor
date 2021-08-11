@@ -27,14 +27,18 @@ namespace ZamzowD.ExampleBlazor.Client.ViewModels
 
         public IndexViewModel(ITodoRepository todoRepository)
         {
-            LoadTodo = ReactiveCommand.CreateFromTask<int>(async (id, cancellationToken) =>
-            {
-                Todo = null;
-                Todo = await todoRepository.GetTodoAsync(id, cancellationToken);
-            });
+            LoadTodo = ReactiveCommand.CreateFromTask<int>(
+                async (id, cancellationToken) =>
+                {
+                    Todo = null;
+                    Todo = await todoRepository.GetTodoAsync(id, cancellationToken);
+                },
+                outputScheduler: RxApp.MainThreadScheduler,
+                canExecuteScheduler: RxApp.MainThreadScheduler
+            );
 
             _loading = LoadTodo.IsExecuting
-                .ToProperty(this, x => x.Loading);
+                .ToProperty(this, x => x.Loading, scheduler: RxApp.MainThreadScheduler);
         }
 
         public void Dispose()
